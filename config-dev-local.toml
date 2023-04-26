@@ -1,0 +1,13 @@
+
+environment = "development"
+file_path = "ports.json"
+
+[http_server]
+address = "0.0.0.0:8080"
+
+[mysql]
+db_name = "ports"
+user = "root"
+password = "password"
+port = 3306
+host = "localhost"
