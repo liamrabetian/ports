@@ -1,0 +1,38 @@
+version: "3.9"
+services:
+  api:
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      - PORTS_CONFIGFILE=config-dev-docker.toml
+    depends_on:
+      - mysql
+    entrypoint:
+      [
+        "/app/wait-for.sh",
+        "--timeout=20",
+        "mysql:3306",
+        "--",
+        "/app/start.sh"
+      ]
+    command: [ "/app/main" ]
+
+  mysql:
+    image: mysql:8.0
+    container_name: mysql
+    hostname: mysql
+    restart: always
+    environment:
+      MYSQL_DATABASE: ports
+      MYSQL_ROOT_PASSWORD: password
+    volumes:
+      - ./docker/provision/mysql/init:/docker-entrypoint-initdb.d
+    ports:
+      - "3306:3306"
+
+volumes:
+  mysql:
+    driver: local
