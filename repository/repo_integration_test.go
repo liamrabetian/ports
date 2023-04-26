@@ -34,14 +34,11 @@ func setupDatabase() *gorm.DB {
 	return db.DB
 }
 
+/* NOTES: cleanup */
 func TestPortMySQLRepositoryIntegration(t *testing.T) {
 	db := setupDatabase()
 	repo := repository.NewPortMySQLRepository(db)
 
-	// Cleanup: delete the test port after each test
-	t.Cleanup(func() {
-		db.Delete(&domain.Port{}, testPort.ID)
-	})
 	t.Run("AddOrUpdatePort", func(t *testing.T) {
 		err := repo.AddOrUpdatePort(testPort)
 		assert.Nil(t, err)

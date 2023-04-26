@@ -11,7 +11,7 @@ import (
 
 type PortHandlerFunc func(port *domain.Port) error
 
-/* NOTES: optimizations (switch, label, cache) */
+/* NOTES: optimizations (switch, label, cache, bulk) */
 func ProcessJSONFile(filename string, portHandler PortHandlerFunc) error {
 	file, err := os.Open(filename)
 	if err != nil {
